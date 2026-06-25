@@ -9,6 +9,7 @@ function normalizeTodos(todos) {
   return todos.map((todo) => ({
     ...todo,
     category: todo.category || DEFAULT_CATEGORY,
+    description: todo.description || '',
   }))
 }
 
@@ -21,10 +22,11 @@ function TodoApp() {
     saveTodos(user.email, todos)
   }, [todos, user.email])
 
-  const addTodo = (text, category) => {
+  const addTodo = (text, category, description = '') => {
     const newTodo = {
       id: Date.now(),
       text: text.trim(),
+      description: description.trim(),
       completed: false,
       category,
     }
@@ -43,11 +45,16 @@ function TodoApp() {
     )
   }
 
-  const editTodo = (id, newText, newCategory) => {
+  const editTodo = (id, newText, newCategory, newDescription = '') => {
     setTodos(
       todos.map((todo) =>
         todo.id === id
-          ? { ...todo, text: newText.trim(), category: newCategory }
+          ? {
+              ...todo,
+              text: newText.trim(),
+              category: newCategory,
+              description: newDescription.trim(),
+            }
           : todo
       )
     )
